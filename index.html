@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BOGO Product</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 600px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+      }
+
+      /* .product-title {
+        text-align: center;
+        font-size: 24px;
+        color: #ff6b6b;
+        margin-bottom: 24px;
+      } */
+
+      /* Styling the promo banner */
+      .promo-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      .promo-banner::before,
+      .promo-banner::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: #d3d3d3;
+        margin: 0 10px;
+      }
+
+      .promo-banner span {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ff7f8a;
+        text-transform: uppercase;
+      }
+
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 16px;
+      }
+
+      .product-card.selected {
+        border-color: #ff6b6b;
+      }
+
+      .product-card h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .product-card p {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .product-card .price {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .product-card .discount {
+        display: flex;
+        background-color: #ff6b6b;
+        color: white;
+        align-items: center;
+        font-size: 14px;
+        padding: 3px;
+      }
+
+      .product-card input {
+        width: 60px;
+        padding: 4px 8px;
+        font-size: 16px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .total-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      .total {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .add-to-cart {
+        display: block;
+        width: 100%;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 12px;
+        font-size: 16px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 16px;
+      }
+
+      .most-popular {
+        position: relative;
+      }
+
+      .most-popular::before {
+        content: "MOST POPULAR";
+        position: absolute;
+        top: -12px;
+        right: 12px;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding: 32px;
+        }
+
+        .product-title {
+          font-size: 28px;
+          margin-bottom: 32px;
+        }
+
+        .product-card {
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px;
+        }
+        .product-inner-card {
+          align-items: center;
+          padding: 14px;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+        }
+        .only-price-section {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+        }
+
+        .product-card h3 {
+          font-size: 20px;
+          margin-bottom: 0;
+          margin-right: 16px;
+        }
+
+        .product-card p {
+          font-size: 18px;
+          margin-bottom: 0;
+          margin-right: 16px;
+        }
+
+        .product-card .price {
+          font-size: 22px;
+        }
+        .product-card .standard-title {
+          font-size: 16px;
+        }
+        .product-card .discount-price {
+          font-size: 14px;
+          color: gray;
+          text-decoration: line-through;
+        }
+
+        .product-card input {
+          width: 80px;
+          font-size: 18px;
+        }
+
+        .total-container {
+          font-size: 20px;
+        }
+
+        .total-wrapper {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px;
+        }
+        .free-delivery {
+          color: #ff6b6b;
+        }
+
+        .add-to-cart {
+          font-size: 18px;
+        }
+
+        .most-popular::before {
+          font-size: 14px;
+          padding: 6px 12px;
+        }
+
+        .radio-button {
+          display: flex;
+        }
+        .radio-button .radioButton {
+          font-size: xx-large;
+          width: 50px;
+        }
+
+        .product-card .radioButton input[type="radio"] {
+          width: 35px; /* Adjust the width as needed */
+          height: 20px; /* Optional */
+          accent-color: #ff6b6b;
+        }
+
+        .size-color {
+          display: flex;
+          justify-content: space-between;
+          width: 150px;
+          height: 70px;
+        }
+
+        .serial {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .size {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .color {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+        }
+        .dropdown-select {
+          width: 60px;
+          height: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="promo-banner">
+        <span>YAY! It's BOGO</span>
+      </div>
+      <div class="product-card" data-index="0">
+        <div class="product-inner-card">
+          <div class="radio-button">
+            <div class="radioButton">
+              <input type="radio" />
+            </div>
+            <div>
+              <div class="only-price-section">
+                <h3>1 Unit</h3>
+                <p class="discount">10% OFF</p>
+              </div>
+              <div>
+                <h6 class="standard-title">Standard Price</h6>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="price">$10.00 USD</p>
+            <p class="discount-price">$24.00 USD</p>
+          </div>
+        </div>
+        <div class="size-color">
+          <div class="serial">
+            <h6></h6>
+            <h6>#1</h6>
+            <h6>#2</h6>
+          </div>
+          <div class="size">
+            <h5>Size</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+          </div>
+          <div class="color">
+            <h5>Color</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-card most-popular" data-index="1">
+        <div class="product-inner-card">
+          <div class="radio-button">
+            <div class="radioButton">
+              <input type="radio" />
+            </div>
+            <div>
+              <div class="only-price-section">
+                <h3>2 Unit</h3>
+                <p class="discount">20% OFF</p>
+              </div>
+              <div>
+                <h6 class="standard-title">Standard Price</h6>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="price">$18.00 USD</p>
+            <p class="discount-price">$24.00 USD</p>
+          </div>
+        </div>
+        <div class="size-color">
+          <div class="serial">
+            <h6></h6>
+            <h6>#1</h6>
+            <h6>#2</h6>
+          </div>
+          <div class="size">
+            <h5>Size</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+          </div>
+          <div class="color">
+            <h5>Color</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-card" data-index="2">
+        <div class="product-inner-card">
+          <div class="radio-button">
+            <div class="radioButton">
+              <input type="radio" />
+            </div>
+            <div>
+              <div class="only-price-section">
+                <h3>3 Unit</h3>
+                <p class="discount">30% OFF</p>
+              </div>
+              <div>
+                <h6 class="standard-title">Standard Price</h6>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p class="price">$24.00 USD</p>
+            <p class="discount-price">$24.00 USD</p>
+          </div>
+        </div>
+        <div class="size-color">
+          <div class="serial">
+            <h6></h6>
+            <h6>#1</h6>
+            <h6>#2</h6>
+          </div>
+          <div class="size">
+            <h5>Size</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xl">XXL</option>
+              </select>
+            </div>
+          </div>
+          <div class="color">
+            <h5>Color</h5>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+            <div class="dropdown">
+              <select id="size-select" class="dropdown-select">
+                <option value="s">Red</option>
+                <option value="m">Green</option>
+                <option value="l">Blue</option>
+                <option value="xl">Orange</option>
+                <option value="xl">Black</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="total-wrapper">
+        <p class="free-delivery">Free Delivery</p>
+        <p class="total">Total: $18.00 USD</p>
+      </div>
+      <div class="total-container">
+        <a href="#" class="add-to-cart">+ Add to Cart</a>
+      </div>
+    </div>
+
+    <script>
+      const productCards = document.querySelectorAll(".product-card");
+      const addToCartButton = document.querySelector(".add-to-cart");
+
+      // Loop through each product card
+      productCards.forEach((card, index) => {
+        const radioButton = card.querySelector('input[type="radio"]');
+        const sizeColorSection = card.querySelector(".size-color");
+
+        // Add click event to the entire card
+        card.addEventListener("click", () => {
+          toggleSelectedCard(index);
+        });
+
+        // Add change event to the radio button
+        radioButton.addEventListener("change", () => {
+          toggleSelectedCard(index);
+        });
+
+        // Initially hide the size-color section
+        if (sizeColorSection) {
+          sizeColorSection.style.display = "none";
+        }
+      });
+
+      function toggleSelectedCard(selectedIndex) {
+        productCards.forEach((card, index) => {
+          const radioButton = card.querySelector('input[type="radio"]');
+          const sizeColorSection = card.querySelector(".size-color");
+
+          // If it's the selected card
+          if (index === selectedIndex) {
+            card.classList.add("selected");
+            radioButton.checked = true;
+
+            // Show the size-color section if available
+            if (sizeColorSection) {
+              sizeColorSection.style.display = "flex";
+            }
+          } else {
+            card.classList.remove("selected");
+            radioButton.checked = false;
+
+            // Hide the size-color section if available
+            if (sizeColorSection) {
+              sizeColorSection.style.display = "none";
+            }
+          }
+        });
+      }
+
+      // Add to cart button functionality
+      addToCartButton.addEventListener("click", () => {
+        const selectedCard = document.querySelector(".product-card.selected");
+        if (selectedCard) {
+          alert("Added to cart!");
+        } else {
+          alert("Please select a product first.");
+        }
+      });
+    </script>
+  </body>
+</html>
